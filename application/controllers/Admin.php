@@ -42,7 +42,7 @@ class Admin extends SUB_Controller {
     
     public function index()
     {
-        
+        $this->set_header_title('Dashboard','Control Panel');
         $this->set_body('themes/adminlte/private/admin/pages/home');
 		$this->load->view('themes/adminlte/private/admin/template',$this->data);
     }

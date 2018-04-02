@@ -9,7 +9,7 @@ class SUB_Controller extends CI_Controller  {
 	
 	function __construct(){
 		parent::__construct();
-		//$this->load->helper('string_util');
+		$this->load->helper('bread_crumps');
 		//$this->add_javascript('components/scripts/js/ads.js');
 	}
 	
@@ -46,6 +46,12 @@ class SUB_Controller extends CI_Controller  {
 		$this->data['javascript'] = $this->get_javascript();	
 	}
 	
+    //TEMPLATE
+	function set_header_title($header,$sub_header)
+	{
+		$this->data['c_header'] = $header;
+		$this->data['sub_c_header'] = $sub_header;
+	}
 	
 	//CSS
 	function add_css($src){
