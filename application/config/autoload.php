@@ -61,7 +61,8 @@ $autoload['packages'] = array();
 $autoload['libraries'] = array(
     'session',
     'database',
-    'login_lib/login'
+    'login_lib/login',
+    'post_lib/post'
 );
 
 /*
@@ -93,7 +94,11 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('form','url');
+$autoload['helper'] = array(
+    'form',
+    'url',
+    'bread_crumps'
+);
 
 /*
 | -------------------------------------------------------------------

@@ -9,7 +9,38 @@ class SUB_Controller extends CI_Controller  {
 	
 	function __construct(){
 		parent::__construct();
-		//$this->load->helper('string_util');
+		
+        $this->data['header'] = 'themes/private/adminlte/admin/layout/header';
+		$this->data['sidebar'] = 'themes/private/adminlte/admin/layout/sidebar';
+        $this->data['footer'] = 'themes/private/adminlte/admin/layout/footer';
+        
+        //DEFAULT CSS
+        $this->add_css('assets/adminlte/bootstrap/css/bootstrap.min.css');
+        $this->add_css('assets/adminlte/dist/css/AdminLTE.min.css');
+        $this->add_css('assets/adminlte/dist/css/skins/_all-skins.min.css');
+        $this->add_css('assets/adminlte/plugins/iCheck/flat/blue.css');
+        $this->add_css('assets/adminlte/plugins/morris/morris.css');
+        $this->add_css('assets/adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.css');
+        $this->add_css('assets/adminlte/plugins/datepicker/datepicker3.css');
+        $this->add_css('assets/adminlte/plugins/daterangepicker/daterangepicker-bs3.css');
+        $this->add_css('assets/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css');
+        
+        //DEFAULT JAVASCRIPT
+		$this->add_javascript('assets/adminlte/plugins/jQuery/jQuery-2.1.4.min.js');
+        $this->add_javascript('assets/adminlte/bootstrap/js/bootstrap.min.js');
+        $this->add_javascript('assets/adminlte/plugins/morris/morris.min.js');
+        $this->add_javascript('assets/adminlte/plugins/sparkline/jquery.sparkline.min.js');
+        $this->add_javascript('assets/adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js');
+        $this->add_javascript('assets/adminlte/plugins/jvectormap/jquery-jvectormap-world-mill-en.js');
+        $this->add_javascript('assets/adminlte/plugins/knob/jquery.knob.js');
+        $this->add_javascript('assets/adminlte/plugins/daterangepicker/daterangepicker.js');
+        $this->add_javascript('assets/adminlte/plugins/datepicker/bootstrap-datepicker.js');
+        $this->add_javascript('assets/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js');
+        $this->add_javascript('assets/adminlte/plugins/slimScroll/jquery.slimscroll.min.js');
+        $this->add_javascript('assets/adminlte/plugins/fastclick/fastclick.min.js');
+        $this->add_javascript('assets/adminlte/dist/js/app.min.js');
+        $this->add_javascript('assets/adminlte/dist/js/pages/dashboard.js');
+        $this->add_javascript('assets/adminlte/dist/js/demo.js');
 		//$this->add_javascript('components/scripts/js/ads.js');
 	}
 	
@@ -46,6 +77,12 @@ class SUB_Controller extends CI_Controller  {
 		$this->data['javascript'] = $this->get_javascript();	
 	}
 	
+    //TEMPLATE
+	function set_header_title($header,$sub_header)
+	{
+		$this->data['c_header'] = $header;
+		$this->data['sub_c_header'] = $sub_header;
+	}
 	
 	//CSS
 	function add_css($src){
