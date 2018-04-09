@@ -53,4 +53,8 @@ $route['default_controller'] = 'admin';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['dashboard'] = 'admin';
+//private
+require 'routes/private/profile_route.php';
+
+
+//public

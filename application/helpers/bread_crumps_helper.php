@@ -4,8 +4,13 @@ if ( ! function_exists('bread_crumps')){
 
 	/*
 		Description: You can use this in view.
-        How to use :
+        How to use : 
+            1. Load $this->load->helper('bread_crumps');
+            2. use the function bread_crumps('your_css_class')
+            
+            output will be path basepath/class/function_name
 	*/
+    
    function bread_crumps($css_class)
    {    
         if(isset($_SERVER['PATH_INFO'])){
@@ -18,9 +23,9 @@ if ( ! function_exists('bread_crumps')){
                     $isLast = ($i == (count($breadCrumps)-1)) ? 'class="active"' : '';
                     $isLastUrl = ($i == (count($breadCrumps)-1)) ? ucfirst($breadCrumps[$i]) : "<a href='".base_url().$breadCrumps[$i]."'>".ucfirst($breadCrumps[$i]). "</a>";
                     $breadcrumpUI .= "<li ".$isLast." >".$isLastUrl."</li>";
-                } else {
+                } /*else {
                     $breadcrumpUI .= "<li><a href='". base_url() ."'>Home</a></li>";
-                }
+                }*/
             }
             
             $breadcrumpUI .= "</ol>";
