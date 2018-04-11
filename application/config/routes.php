@@ -58,3 +58,7 @@ require 'routes/private/profile_route.php';
 
 
 //public
+
+
+//sample route
+require 'routes/sample_route.php';
