@@ -20,8 +20,10 @@ if ( ! function_exists('bread_crumps')){
             
             for($i = 0; $i < count($breadCrumps); $i++){
                 if($breadCrumps[$i] != ''){
+                    $url = get_merge_string_array($breadCrumps,0,$i,'/');
                     $isLast = ($i == (count($breadCrumps)-1)) ? 'class="active"' : '';
-                    $isLastUrl = ($i == (count($breadCrumps)-1)) ? ucfirst($breadCrumps[$i]) : "<a href='".base_url().$breadCrumps[$i]."'>".ucfirst($breadCrumps[$i]). "</a>";
+                    $text = str_replace('_',' ', $breadCrumps[$i]);
+                    $isLastUrl = ($i == (count($breadCrumps)-1)) ? ucfirst($text) : "<a href='".base_url($url)."'>".ucfirst($text). "</a>";
                     $breadcrumpUI .= "<li ".$isLast." >".$isLastUrl."</li>";
                 } /*else {
                     $breadcrumpUI .= "<li><a href='". base_url() ."'>Home</a></li>";
@@ -33,4 +35,18 @@ if ( ! function_exists('bread_crumps')){
             echo $breadcrumpUI;
         }
    }   
+   
+   function get_merge_string_array($array,$from,$to,$split = '')
+   {
+        $string = '';
+        $count = count($array);
+        if($count > $to && 0 <= $from) {
+            for($i = $from ; $i <= $to ;$i++){
+                $applySpit = (($string != '')? $split : '');
+                $string = $string .$applySpit. $array[$i];
+            }
+             
+            return $string;
+        }
+    }
 }

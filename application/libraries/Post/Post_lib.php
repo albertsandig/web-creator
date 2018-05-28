@@ -6,7 +6,7 @@
  */
  defined('BASEPATH') OR exit('No direct script access allowed');
  
-class Post
+class Post_lib
 {
     private $CI;
     private $error;
@@ -20,6 +20,10 @@ class Post
         $this->CI->load->library('session');
         $this->CI->config->item('base_url');
         $this->CI->load->database();
+    }
+    
+    public function testing(){
+        return 'testing';
     }
     
     public function getAllPost($sql)

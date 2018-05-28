@@ -192,6 +192,75 @@
     <script>
       $.widget.bridge('uibutton', $.ui.button);
     </script>
+    
+    <?php if($this->session->flashdata('success_login')) { ?>
+            <div class="row" >
+                <div class="col-md-12" >
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i>Success</h4>
+                            
+                    </div>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div id="myModal" class="modal modal-success  fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"><p><?=$this->session->flashdata('success_login')?></p></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script >
+                $( document ).ready(function() {
+                    $('#myModal').modal('show');
+                });
+            </script>
+    <?php  } ?>
+    
+    <script>
+        $(function () {
+            $('.datatable').DataTable({
+              "paging": true,
+              "lengthChange": false,
+              "searching": false,
+              "ordering": true,
+              "info": true,
+              "autoWidth": false
+            });
+            
+            $(".datemask").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+            
+            $("[data-mask]").inputmask();
+        });  
+    </script>
+    
+    <?php if(isset($form)) :?>
+        <script>
+            //SECURITY PURPOSES
+            /*
+            $(function () {
+                var code = $('input[name=csrf_test_name]').val();
+                $('input[name=validate]').val(code+"_");
+                var inputs = document.getElementById("form_id").elements;
+                
+                var prev = "";
+                for(var i=0;i< inputs.length;i++){
+                    var name = inputs[i].getAttribute("name");
+                    if(prev != name && name != "" && name != "csrf_test_name" && name != "validate" ){
+                        prev = name;
+                        inputs[i].setAttribute("name", code+"_"+name);
+                        
+                    }
+                }
+            });       
+            */
+        </script>
+    <?php endif; ?>
   </body>
 </html>
 		
