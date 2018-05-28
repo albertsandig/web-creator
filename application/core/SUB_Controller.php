@@ -6,7 +6,7 @@ class SUB_Controller extends CI_Controller  {
 	public $css	= array();
 	public $javascript = array();
 	public $Sjavascript = array(); // special javascript
-	
+    
 	function __construct(){
 		parent::__construct();
 		
@@ -15,19 +15,25 @@ class SUB_Controller extends CI_Controller  {
         $this->data['footer'] = 'themes/private/adminlte/admin/layout/footer';
         
         //DEFAULT CSS
-        $this->add_css('assets/adminlte/bootstrap/css/bootstrap.min.css');
-        $this->add_css('assets/adminlte/dist/css/AdminLTE.min.css');
-        $this->add_css('assets/adminlte/dist/css/skins/_all-skins.min.css');
+        $this->add_css('assets/adminlte/bootstrap/css/bootstrap.css');
+        $this->add_css('assets/adminlte/dist/css/AdminLTE.css');
+        $this->add_css('assets/adminlte/plugins/iCheck/square/blue.css');
+        $this->add_css('assets/adminlte/dist/css/skins/_all-skins.css');
         $this->add_css('assets/adminlte/plugins/iCheck/flat/blue.css');
         $this->add_css('assets/adminlte/plugins/morris/morris.css');
         $this->add_css('assets/adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.css');
         $this->add_css('assets/adminlte/plugins/datepicker/datepicker3.css');
         $this->add_css('assets/adminlte/plugins/daterangepicker/daterangepicker-bs3.css');
         $this->add_css('assets/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css');
+         $this->add_css('assets/adminlte/plugins/datatables/dataTables.bootstrap.css');
+        $this->add_css('assets/adminlte/bootstrap/css/bootstrap_override.css');
         
         //DEFAULT JAVASCRIPT
-		$this->add_javascript('assets/adminlte/plugins/jQuery/jQuery-2.1.4.min.js');
+        
+        $this->add_javascript('assets/adminlte/plugins/jQuery/jQuery-2.1.4.min.js');
         $this->add_javascript('assets/adminlte/bootstrap/js/bootstrap.min.js');
+        $this->add_javascript('assets/adminlte/plugins/iCheck/icheck.min.js');
+        
         $this->add_javascript('assets/adminlte/plugins/morris/morris.min.js');
         $this->add_javascript('assets/adminlte/plugins/sparkline/jquery.sparkline.min.js');
         $this->add_javascript('assets/adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js');
@@ -38,34 +44,20 @@ class SUB_Controller extends CI_Controller  {
         $this->add_javascript('assets/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js');
         $this->add_javascript('assets/adminlte/plugins/slimScroll/jquery.slimscroll.min.js');
         $this->add_javascript('assets/adminlte/plugins/fastclick/fastclick.min.js');
+        $this->add_javascript('assets/adminlte/plugins/iCheck/icheck.min.js');
+        $this->add_javascript('assets/adminlte/plugins/datatables/jquery.dataTables.min.js');
+        $this->add_javascript('assets/adminlte/plugins/datatables/dataTables.bootstrap.min.js');
+        $this->add_javascript('assets/adminlte/plugins/input-mask/jquery.inputmask.js');
+        $this->add_javascript('assets/adminlte/plugins/input-mask/jquery.inputmask.date.extensions.js');
+        $this->add_javascript('assets/adminlte/plugins/input-mask/jquery.inputmask.extensions.js');
         $this->add_javascript('assets/adminlte/dist/js/app.min.js');
+        
+        /*
         $this->add_javascript('assets/adminlte/dist/js/pages/dashboard.js');
         $this->add_javascript('assets/adminlte/dist/js/demo.js');
-		//$this->add_javascript('components/scripts/js/ads.js');
-	}
-	
-	/*
-		Redirect to login page if user is is not login
-	*/
-	
-	function site_user_login(){
-		$is_login = $this->session->userdata('logged_in');
-		if(!isset($is_login) || !$is_login ){
-			$message = notification(" Login first.","error");
-			$this->session->set_flashdata('message', $message);
-			redirect('login');
-		} 
-	}
-	
-	/*
-		Redirect to admin page if user is already login
-	*/
-	
-	function is_user_already_login(){
-		$is_login = $this->session->userdata('logged_in');
-		if(isset($is_login) || $is_login ){
-			redirect('admin/user');
-		} 
+        $this->add_javascript('components/scripts/js/ads.js');
+		*/
+        
 	}
 	
 	
@@ -78,7 +70,7 @@ class SUB_Controller extends CI_Controller  {
 	}
 	
     //TEMPLATE
-	function set_header_title($header,$sub_header)
+	function set_header_title($header ="",$sub_header = "")
 	{
 		$this->data['c_header'] = $header;
 		$this->data['sub_c_header'] = $sub_header;

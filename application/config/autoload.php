@@ -59,10 +59,15 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 $autoload['libraries'] = array(
+    //CI Library
     'session',
     'database',
-    'login_lib/login',
-    'post_lib/post'
+    'form_validation',
+    
+    //web creator libary
+    'Login/Login_lib',
+    'Post/Post_lib',
+    'Table/Table_lib'
 );
 
 /*
@@ -97,7 +102,9 @@ $autoload['drivers'] = array();
 $autoload['helper'] = array(
     'form',
     'url',
-    'bread_crumps'
+    'bread_crumps',
+    'input',
+    'access'
 );
 
 /*

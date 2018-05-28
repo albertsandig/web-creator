@@ -6,8 +6,9 @@
  */
  defined('BASEPATH') OR exit('No direct script access allowed');
  
-class Login
+class Login_lib
 {
+
     private $CI;
     
     public function __construct()
@@ -21,7 +22,7 @@ class Login
         $this->CI->load->database();
     }
     
-    public function loginUser($input = array(), $sql)
+    public function login_user($input = array(), $sql)
     {
         $isLogin = false;
         
@@ -47,39 +48,51 @@ class Login
         }
     }
     
-    public function logout()
+    public function logout($input = array(), $sql)
     {
         $_SESSION = [];
-    }
-    
-    public function isUserNotLogin($redirectURL)
-    {
-        $is_login = $this->CI->session->userdata('is_login');
         
-        if(!$is_login){
-            redirect('../'.$redirectURL);
-        } 
-    }
-    
-    public function loginAttempt($input = array(), $sql)
-    {
-         $query = $this->CI->db->query($sql);
+        $query = $this->CI->db->query($sql,$input);
             
         if(!$query){
             $this->message = $this->CI->db->error()['message'];
         }
     }
     
-    public function getLoginAttempt($input = array(), $resultKey, $sql)
+    public function is_user_not_login($redirectURL)
+    {
+        $is_login = $this->CI->session->userdata('is_login');
+        
+        if(!$is_login){
+            redirect($redirectURL);
+        } 
+    }
+    
+    public function isUserLogin(){
+        return $this->CI->session->userdata('is_login');
+    }
+    
+    
+    public function login_attempt($input = array(), $sql)
+    {
+        $query = $this->CI->db->query($sql,$input);
+            
+        if(!$query){
+            $this->message = $this->CI->db->error()['message'];
+        }
+    }
+    
+    public function get_login_attempt($input = array(), $sql)
     {
          $query = $this->CI->db->query($sql,$input);
             
         if(!$query){
             $this->message = $this->CI->db->error()['message'];
         } else {
-           return $query->row_array()[$resultKey];
+           return $query->row();
         }
     }
+    
 }
 
 

@@ -2,15 +2,19 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Post_Model extends SUB_Model {
-
+    
+    private $ci;
+    
 	function __construct(){
 		parent::__construct();
+        $this->ci =& get_instance();
 	}
     
     public function executeCommand($action){
+       
         switch($action){
             case 'create':
-                $this->post->createPost(array(), "
+                $this->post_lib->createPost(array(), "
                     INSERT INTO post(    
                         title,		    
                         content, 		
@@ -25,13 +29,13 @@ class Post_Model extends SUB_Model {
                         1
                     )
                 ");
-            break;
+                break;
             case 'update':
-            break;
+                break;
             case 'delete':
-            break;
+                break;
             case 'retrieveAll':
-                return $this->post->getAllPost("
+                return $this->post_lib->getAllPost("
                     SELECT A.*,B.*,C.*
                     FROM post AS A
                     INNER JOIN status AS B
@@ -39,9 +43,9 @@ class Post_Model extends SUB_Model {
                     INNER JOIN category AS C
                         USING (category_no);
                 ");
-            break;
+                break;
             case 'retrieve':
-                return $this->post->getPost(array('1'),"
+                return $this->post_lib->getPost(array('1'),"
                     SELECT A.*,B.*,C.*
                     FROM post AS A
                     INNER JOIN status AS B
@@ -50,7 +54,7 @@ class Post_Model extends SUB_Model {
                         USING (category_no)
                     WHERE A.post_no = ? 
                 ");
-            break;
+                break;
         }
     }
 }

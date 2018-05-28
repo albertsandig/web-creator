@@ -1,13 +1,38 @@
+
 /*--------------------- USER TYPE---------------------*/
 CREATE TABLE user_type(
-	type_no	int(11) NOT NULL AUTO_INCREMENT,
-	name 		varchar(40) NOT NULL UNIQUE,
+	type_no	       int(11) NOT NULL AUTO_INCREMENT,
+	name 		   varchar(40) NOT NULL UNIQUE, 
+    level_no       int,
 	PRIMARY KEY (type_no)
 ); 
 
 INSERT INTO user_type VALUES 
-(1,'SUPERUSER'),
-(2,'USER');
+(1,'SYSADMIN',1),
+(2,'SUPERUSER',2),
+(3,'USER',3);
+
+ALTER TABLE user_type ADD FULLTEXT (name);
+
+/*--------------------- MODULE ---------------------*/
+CREATE TABLE system_module(
+	module_no	    int(11) NOT NULL AUTO_INCREMENT,
+	name 		    varchar(40) NOT NULL UNIQUE,
+	PRIMARY KEY (module_no)
+); 
+
+INSERT INTO system_module VALUES
+(1,"USER_MANAGEMENT");
+
+CREATE TABLE security_system_module (
+    module_no,
+    user_type,
+    FOREIGN KEY (system_module) REFERENCES user_type(module_no),
+    FOREIGN KEY (type_no) REFERENCES user_type(type_no)
+);
+
+INSERT INTO security_system_module VALUES
+(1,1),(1,2),(1,3);
 
 /*--------------------- USER INFO---------------------*/
 CREATE TABLE user_info (
@@ -25,13 +50,17 @@ CREATE TABLE user_info (
 	mobile_number    varchar(20),
 	img_source	    text,
 	is_online	    boolean DEFAULT FALSE,
+    ip_address      varchar(100),
     login_attempt   int DEFAULT 0,
 	verify		    boolean DEFAULT FALSE,
+    is_active		boolean DEFAULT TRUE,
     create_date     timestamp DEFAULT CURRENT_TIMESTAMP,
     update_date     timestamp DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY (type_no) REFERENCES user_type(type_no),
 	PRIMARY KEY (user_no)
 );
+
+ALTER TABLE user_info ADD FULLTEXT (email,firstname, lastname);
 
 INSERT INTO user_info (
     /* CREDENTIALS */
@@ -56,6 +85,7 @@ INSERT INTO user_info (
     'Prk. 8 Canaway, I.C',
     '09359430897'
 );
+
 /*------------------- Category ---------------------*/  
 CREATE TABLE category (
     category_no     int NOT NULL AUTO_INCREMENT,
