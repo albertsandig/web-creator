@@ -8,11 +8,18 @@ class User_Type extends SUB_Controller {
 		parent::__construct();   
         $this->login_lib->is_user_not_login('login');
         $this->load->model('User_Type_Model'); 
+        
+        access_level('ADMIN_ACCESS');
 	}
     
     public function index()
     {
-        $this->data['types'] = $this->table_lib->getList('User_Type_Model','get_user_types',$this->input->post('table_search'),'type_no');
+        $this->data['types'] = $this->table_lib->getList(
+            'User_Type_Model',
+            'get_user_types',
+            $this->input->post('table_search'),
+            'type_no'
+        );
         
         
         $string = "<a href='add' ><i class='fa fa-fw fa-plus'></i> add type</a>";
@@ -23,18 +30,15 @@ class User_Type extends SUB_Controller {
     
     public function add()
     {
-        //to use CSRF
-        $this->data['form'] = true;
         
-        $this->data['user'] = new stdClass();
-        $this->data['user_type'] = $this->User_Type_Model->get_user_type_ui();
+        $this->data['user_type'] = new stdClass();
         
         $this->form_validation->set_rules(self::save('add'));
         
         if($this->form_validation->run()){
-            $this->User_Model->insert();
-            $this->session->set_flashdata('message', 'Successfully add user.');   
-            redirect('admin/users/add');
+            $this->User_Type_Model->insert();
+            $this->session->set_flashdata('message', 'Successfully add user type.');   
+            redirect('admin/users/user_type/add');
         } 
         
         $this->set_header_title('Add User Type','');
@@ -44,95 +48,61 @@ class User_Type extends SUB_Controller {
     
     public function edit($id)
     {
-        //to use CSRF
-        $this->data['form'] = true;
         
-        $this->data['user'] = $this->User_Model->get_user($id);
-        $this->data['user_type'] = $this->User_Type_Model->get_user_type_ui();
+        $this->data['user_type'] = $this->User_Type_Model->get_user_type($id);
         
         $this->form_validation->set_rules(self::save());
         
         if($this->form_validation->run()){
-            $this->User_Model->update();
-            $this->session->set_flashdata('message', 'Successfully updated user.');   
-            redirect('admin/users/edit/'.$id);
+            $this->User_Type_Model->update();
+            $this->session->set_flashdata('message', 'Successfully updated user type.');   
+            redirect('admin/users/user_type/edit/'.$id);
         } 
         
-        $this->set_header_title('Edit User','');
-        $this->set_body('themes/private/adminlte/admin/pages/users/form');
+        $this->set_header_title('Edit User Type','');
+        $this->set_body('themes/private/adminlte/admin/pages/user_type/form');
 		$this->load->view('themes/private/adminlte/admin/template',$this->data);
        
+    }
+    
+    public function delete($id)
+    {
+        
+        $user_type = $this->User_Type_Model->get_user_type($id);
+        
+        
+        if($user_type){
+            $this->User_Type_Model->delete($id);
+            $this->session->set_flashdata('notification_type', 'success');   
+            $this->session->set_flashdata('message', 'The user type "'.$user_type->name.'" was deleted.');   
+        } else {
+            $this->session->set_flashdata('notification_type', 'danger');   
+            $this->session->set_flashdata('message', 'The entry #'.$id.' does not exist.');   
+        }
+        redirect('admin/users/user_type/list');
+        
     }
     
     static function save($state = 'edit')
     {
         $config = array(
-            array(
-                'field' => 'type_no',
-                'label' => 'User Type',
-                'rules' => 'required'
-            ), array(
-                'field' => 'status',
-                'label' => 'Status',
-                'rules' => 'required'
-            ), array(
-                'field' => 'img_source',
-                'label' => 'Profile Image',
-                'rules' => ''
-            ), array(
-                'field' => 'firstname',
-                'label' => 'First Name',
-                'rules' => 'required'
-            ), array(
-                'field' => 'lastname',
-                'label' => 'Last Name',
-                'rules' => 'required'
-            ), array(
-                'field' => 'mobile_number',
-                'label' => 'Last Name',
-                'rules' => ''
-            ), array(
-                'field' => 'gender',
-                'label' => 'Gender',
-                'rules' => ''
-            ), array(
-                'field' => 'address',
-                'label' => 'Address',
-                'rules' => ''
-            ), array(
-                'field' => 'birthday',
-                'label' => 'Birthday',
-                'rules' => 'required'
-            )
+            
         );
         
         if($state == 'add'){
             array_push( $config , 
                 array(
-                    'field' => 'email',
-                    'label' => 'Email',
-                    'rules' => 'required|valid_email|is_unique[user_info.email]'
-                ),
-                array(
-                    'field' => 'password',
-                    'label' => 'Password',
-                    'rules' => 'required',
-                    'errors' => array(
-                            'required' => 'You must provide a %s.',
-                    )
-                ),
-                array(
-                    'field' => 'confirm_password',
-                    'label' => 'Confirm Password',
-                    'rules' => 'required|matches[password]'
+                    'field' => 'name',
+                    'label' => 'User Type',
+                    'rules' => 'required|is_unique[user_type.name]'
                 )
             );
         } else {
              array_push( $config , 
                 array(
-                    'field' => 'email',
-                    'label' => 'Email',
-                    'rules' => 'required|valid_email|callback_is_email_exist'
+                    'field' => 'name',
+                    'label' => 'User Type',
+                    'rules' => 'required|callback_is_user_type_exist'
                 )
             );
         }
@@ -140,11 +110,11 @@ class User_Type extends SUB_Controller {
         return $config;
     }
     
-    public function is_email_exist($email){
+    public function is_user_type_exist($name){
         $id = $this->input->post('id');
         
-        if($this->User_Model->is_email_exist($email,$id)){
-            $this->form_validation->set_message('is_email_exist', 'The {field} must be unique.');
+        if($this->User_Type_Model->is_user_type_exist($name,$id)){
+            $this->form_validation->set_message('is_user_type_exist', 'The value \''.$name.'\' in {field} is already exist.');
             return false;
         } else {
             return true;

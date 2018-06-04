@@ -4,7 +4,7 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header">
-                  <h3 class="box-title">List of User Types</h3>
+                  <h3 class="box-title">List of Modules</h3>
                     <div class="box-tools">
                         <div style="width: 175px;">
                             <?=form_open('','class=input-group')?>
@@ -28,12 +28,14 @@
                     <?php endif; ?>
                     <table class="datatable table table-bordered table-hover">
                         <thead>
-                            <th width="10%" >Type ID</th>
+                            <th width="10%" >Module ID</th>
+                            <th width="15%">Serial Number</th>
                             <th>Name</th>
+                            <th width="15%">Created By</th>
                             <th width="15%" >Action</th>
                         </thead>
                         <tbody>
-                            <?=$types?>
+                            <?=$modules?>
                         </tbody>
                     </table>
                 </div>

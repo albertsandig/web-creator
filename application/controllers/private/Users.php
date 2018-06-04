@@ -2,18 +2,28 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Users extends SUB_Controller {
-
+    
 	function __construct()
     {
 		parent::__construct();   
         $this->login_lib->is_user_not_login('login');
         $this->load->model('User_Model'); 
         $this->load->model('User_Type_Model'); 
+        
+        
+        access_level('ADMIN_ACCESS');
 	}
     
     public function index()
     {
-        $this->data['users'] = $this->table_lib->getList('User_Model','get_all_user',$this->input->post('table_search'),'user_no');
+        $this->data['users'] = $this->table_lib->getList(
+            'User_Model', //model name
+            'get_all_user', //model get function name
+            $this->input->post('table_search'), //search input name
+            'user_no', //table primary key
+            true,
+            false
+        );
         
         
         $string = "<a href='add' ><i class='fa fa-fw fa-plus'></i> add user</a>";
@@ -24,9 +34,6 @@ class Users extends SUB_Controller {
     
     public function add()
     {
-        //to use CSRF
-        $this->data['form'] = true;
-        
         $this->data['user'] = new stdClass();
         $this->data['user_type'] = $this->User_Type_Model->get_user_type_ui();
         
@@ -45,9 +52,6 @@ class Users extends SUB_Controller {
     
     public function edit($id)
     {
-        //to use CSRF
-        $this->data['form'] = true;
-        
         $this->data['user'] = $this->User_Model->get_user($id);
         $this->data['user_type'] = $this->User_Type_Model->get_user_type_ui();
         

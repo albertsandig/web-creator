@@ -3,36 +3,15 @@
 CREATE TABLE user_type(
 	type_no	       int(11) NOT NULL AUTO_INCREMENT,
 	name 		   varchar(40) NOT NULL UNIQUE, 
-    level_no       int,
 	PRIMARY KEY (type_no)
 ); 
 
 INSERT INTO user_type VALUES 
-(1,'SYSADMIN',1),
-(2,'SUPERUSER',2),
-(3,'USER',3);
+(1,'SYSADMIN'),
+(2,'SUPERUSER'),
+(3,'USER');
 
 ALTER TABLE user_type ADD FULLTEXT (name);
-
-/*--------------------- MODULE ---------------------*/
-CREATE TABLE system_module(
-	module_no	    int(11) NOT NULL AUTO_INCREMENT,
-	name 		    varchar(40) NOT NULL UNIQUE,
-	PRIMARY KEY (module_no)
-); 
-
-INSERT INTO system_module VALUES
-(1,"USER_MANAGEMENT");
-
-CREATE TABLE security_system_module (
-    module_no,
-    user_type,
-    FOREIGN KEY (system_module) REFERENCES user_type(module_no),
-    FOREIGN KEY (type_no) REFERENCES user_type(type_no)
-);
-
-INSERT INTO security_system_module VALUES
-(1,1),(1,2),(1,3);
 
 /*--------------------- USER INFO---------------------*/
 CREATE TABLE user_info (
@@ -85,6 +64,28 @@ INSERT INTO user_info (
     'Prk. 8 Canaway, I.C',
     '09359430897'
 );
+/*--------------------- MODULE ---------------------*/
+CREATE TABLE modules(
+	module_no	        int(11) NOT NULL AUTO_INCREMENT,
+    module_serial_no 	int(11) NOT NULL UNIQUE, 
+	name 		        varchar(200),
+    created_by          int(11) NOT NULL,
+    FOREIGN KEY (created_by) REFERENCES user_info(user_no),
+	PRIMARY KEY (module_no)
+); 
+
+ALTER TABLE modules ADD FULLTEXT (name);
+
+
+
+
+
+
+
+
+
+
+
 
 /*------------------- Category ---------------------*/  
 CREATE TABLE category (

@@ -1,16 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User_Type_Model extends SUB_Model
+class Modules_Model extends SUB_Model
 {
-    private $table = 'user_type';
+    private $table = 'modules';
     
     function __construct()
     {
       	parent::__construct();
     }
     
-    public function get_user_types($search_val)
+    public function get_modules($search_val)
     {
         $condition = "";
         
@@ -23,9 +23,13 @@ class User_Type_Model extends SUB_Model
         
         $query = $this->db->query("
             SELECT 
-                A.type_no,
-                A.name
+                A.module_no,
+                A.module_serial_no,
+                A.name,
+                CONCAT(B.firstname,' ',lastname) AS created_by
             FROM ".$this->table." AS A
+            INNER JOIN user_info AS B
+                ON A.created_by = B.user_no
             ".$condition."
             LIMIT 100;
         ",array ($search_val));
@@ -33,53 +37,62 @@ class User_Type_Model extends SUB_Model
         return $query->result();
     }
     
-    public function get_user_type($id)
+    
+    public function get_module($id)
     {
         $query = $this->db->query("
             SELECT 
-                A.type_no as id,
+                A.module_no as id,
+                A.module_serial_no as serial_no,
                 A.name
             FROM ".$this->table." AS A
-            WHERE A.type_no = ?
+            WHERE A.module_no = ?
         ",array ($id));
         
         return $query->row();
     }
     
-    public function get_user_type_ui()
-    {
-        $query = $this->db->query("
-            SELECT 
-                A.type_no as id,
-                A.name
-            FROM ".$this->table."  AS A
-        ");
-        
-        return $query->result();
-    }
     
-    public function is_user_type_exist($name,$id = 0)
+    public function is_module_name_exist($name,$id = 0)
     {
         $query = $this->db->query("
             SELECT 
-                count(A.type_no) AS is_exist
+                count(A.module_no) AS is_exist
             FROM ".$this->table." AS A
-            WHERE A.name = UPPER(?) AND A.type_no != ?
+            WHERE A.name = UPPER(?) AND A.module_no != ?
         ",array ($name,$id));
         
         return ($query->row()->is_exist > 0) ? true : false;
     }
     
+    public function is_serial_no_exist($serial_no,$id = 0)
+    {
+        $query = $this->db->query("
+            SELECT 
+                count(A.module_no) AS is_exist
+            FROM ".$this->table." AS A
+            WHERE A.module_serial_no = ? AND A.module_no != ?
+        ",array ($serial_no,$id));
+        
+        return ($query->row()->is_exist > 0) ? true : false;
+    }
+    
+    
+    
     public function insert()
     {
         $query = $this->db->query("
            INSERT INTO ".$this->table." (
-                name
+                module_serial_no,
+                name,
+                created_by
            )
            VALUES
-            (UPPER(?))
+            (?,UPPER(?),?)
         ",array (
-                $this->input->post('name')
+                $this->input->post('serial_no'),
+                $this->input->post('name'),
+                $this->session->userdata('user_no')
             )
         );
     }
@@ -89,20 +102,23 @@ class User_Type_Model extends SUB_Model
         $query = $this->db->query("
             UPDATE ".$this->table." 
             SET        
-                name = UPPER(?) 
-            WHERE type_no = ?
+                name = UPPER(?) ,
+                module_serial_no = ?
+            WHERE module_no = ?
         ",array (
                 $this->input->post('name'),
+                $this->input->post('serial_no'),
                 $this->input->post('id')
             )
         );
     }
     
+    
     public function delete($id)
     {
         $query = $this->db->query("
             DELETE FROM ".$this->table." 
-            WHERE type_no = ?
+            WHERE module_no = ?
         ",array (
                 $id
             )

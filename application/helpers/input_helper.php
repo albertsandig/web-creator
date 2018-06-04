@@ -51,6 +51,7 @@ if ( ! function_exists('set_active'))
         return $select;
 	}
 }
+
 if ( ! function_exists('set_input_value'))
 {	
 	function set_input_value($object, $key, $false_value = '')

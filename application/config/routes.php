@@ -57,13 +57,12 @@ $route['translate_uri_dashes'] = FALSE;
 //private
 require 'routes/private/profile_route.php';
 require 'routes/private/users_route.php';
+require 'routes/private/user_type_route.php';
+require 'routes/private/modules_route.php';
 
+//MODULES
+require 'routes/private/modules/website_route.php';
 
-$route['admin/users/user_type/list'] = 'private/User_Type/index';
-/*$route['admin/users/user_type/add'] = 'private/User_Type/add';
-$route['admin/users/user_type/edit/(:num)'] = 'private/User_Type/edit/$1';
-$route['admin/users/user_type/save'] = 'private/User_Type/save';
-*/
 
 //public
 require 'routes/public/login_route.php';
