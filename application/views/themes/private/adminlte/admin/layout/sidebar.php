@@ -32,37 +32,32 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
+                            <li class="<?=($this->uri->segment(3) == "list") ? 'active' : '' ?>" ><a href="<?=base_url('admin/users/list')?>"><i class="fa fa-list"></i>List of Users</a></li>
                             <li class="<?=($this->uri->segment(3) == "add") ? 'active' : '' ?>" ><a href="<?=base_url('admin/users/add')?>"><i class="fa fa-user-plus"></i>Add User</a></li>
                             <li class="<?=($this->uri->segment(3) == "user_type") ? 'active' : '' ?>" >
                                 <a style="cursor: pointer" onclick="window.location.href='<?=base_url('admin/users/user_type/list')?>'"><i class="fa fa-user-secret"></i>User Type<i class="fa fa-angle-left pull-right"></i></a>
                                 <ul class="treeview-menu <?=($this->uri->segment(3) == "user_type") ? 'active' : '' ?>">
+                                    <li class="<?=($this->uri->segment(4) == "list") ? 'active' : '' ?>" ><a href="<?=base_url('admin/users/user_type/list')?>"><i class="fa fa-list"></i>List of User Type</a></li>
                                     <li class="<?=($this->uri->segment(4) == "add") ? 'active' : '' ?>" >
-                                        <a href="#"><i class="fa fa-plus-circle"></i> Add Type</a>
+                                        <a href="<?=base_url('admin/users/user_type/add')?>"><i class="fa fa-plus-circle"></i> Add Type</a>
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                        </ul>
-                    </li>
-                    <li class="treeview <?=($this->uri->segment(2) == "modules") ? 'active' : '' ?>">
-                        <a style="cursor: pointer" onclick="window.location.href='<?=base_url('admin/users/list')?>'">
-                            <i class="fa fa-book"></i> <span>Modules</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="<?=($this->uri->segment(3) == "add") ? 'active' : '' ?>" ><a href="<?=base_url('admin/users/add')?>"><i class="fa fa-user-plus"></i>Add User</a></li>
-                            <li class="<?=($this->uri->segment(3) == "user_type") ? 'active' : '' ?>" >
-                                <a style="cursor: pointer" onclick="window.location.href='<?=base_url('admin/users/user_type/list')?>'"><i class="fa fa-user-secret"></i>User Type<i class="fa fa-angle-left pull-right"></i></a>
-                                <ul class="treeview-menu <?=($this->uri->segment(3) == "user_type") ? 'active' : '' ?>">
-                                    <li class="<?=($this->uri->segment(4) == "add") ? 'active' : '' ?>" >
-                                        <a href="#"><i class="fa fa-plus-circle"></i> Add Type</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
+                <li class="treeview <?=($this->uri->segment(2) == "modules") ? 'active' : '' ?>">
+                    <a style="cursor: pointer" onclick="window.location.href='<?=base_url('admin/modules/list')?>'">
+                        <i class="fa fa-book"></i> <span>Modules</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+						<li class="<?=($this->uri->segment(3) == "list") ? 'active' : '' ?>" ><a href="<?=base_url('admin/modules/list')?>"><i class="fa fa-list"></i>List of Modules</a></li>
+                        <li class="<?=($this->uri->segment(3) == "add") ? 'active' : '' ?>" ><a href="<?=base_url('admin/modules/add')?>"><i class="fa fa-plus-circle"></i>Add Module</a></li>
+                    </ul>
+                </li>
+                <li class="header">USER MODULES</li>
+                <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
                 
                 <li class="treeview">
                     <a href="#">
@@ -87,10 +82,7 @@
                         <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
                     </ul>
                 </li>
-                <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-                <li class="header">LABELS</li>
-                <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-                
+                <li><a href="documentation/index.html"><i class="fa fa-question-circle"></i> <span>Guide</span></a></li>
             </ul>
         </section>
         <!-- /.sidebar -->

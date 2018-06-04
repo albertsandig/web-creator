@@ -2,10 +2,11 @@
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class SUB_Controller extends CI_Controller  {
+    public $module_serial_no = 0; // this will be use for security access of modules
 	public $data = array();
-	public $css	= array();
-	public $javascript = array();
-	public $Sjavascript = array(); // special javascript
+	private $css	= array();
+	private $javascript = array();
+	private $Sjavascript = array(); // special javascript
     
 	function __construct(){
 		parent::__construct();

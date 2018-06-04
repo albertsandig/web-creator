@@ -9,7 +9,7 @@
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <?=form_open('','class="form-horizontal" id="form_id"')?>
-                    <input type="hidden" name="id" value="<?=set_input_value($user_type, 'id','0')?>" >
+                    <input type="hidden" name="id" value="<?=set_input_value($module, 'id','0')?>" >
                     <div class="box-body">
                         <div class="row">    
                             <?php if(validation_errors() != false) : ?>
@@ -32,16 +32,22 @@
                                     </div>
                                 </div>                                
                             <?php endif; ?>
-                            <div class="form-group <?=(form_error('name') != '')? 'has-error': '' ?> col-sm-12">
-                                <label class="col-sm-3 col-sm-offset-2 control-label">User Type:</label>
+                            <div class="form-group <?=(form_error('serial_no') != '')? 'has-error': '' ?> col-sm-12">
+                                <label class="col-sm-3 col-sm-offset-2 control-label">Serial Number:</label>
                                 <div class="col-sm-4">
-                                    <input name="name" type="text"  class="form-control" value="<?=set_input_value($user_type, 'name',set_value('name'))?>"  placeholder="Name">
+                                    <input name="serial_no" type="text"  class="form-control" value="<?=set_input_value($module, 'serial_no',set_value('serial_no'))?>"  placeholder="Unique Serial No">
+                                </div>                                
+                            </div>
+                            <div class="form-group <?=(form_error('name') != '')? 'has-error': '' ?> col-sm-12">
+                                <label class="col-sm-3 col-sm-offset-2 control-label">Module Name:</label>
+                                <div class="col-sm-4">
+                                    <input name="name" type="text"  class="form-control" value="<?=set_input_value($module, 'name',set_value('name'))?>"  placeholder="Uniqe Name">
                                 </div>                                
                             </div>
                         </div>
                     </div><!-- /.box-body -->
                     <div class="box-footer" style="text-align:center;">
-                        <button onclick="window.location.href='<?=base_url('admin/users/user_type/list')?>'" type="button" class="btn btn-default" >Cancel</button>
+                        <button onclick="window.location.href='<?=base_url('admin/modules/list')?>'" type="button" class="btn btn-default" >Cancel</button>
                         <button type="submit" class="btn btn-info">Save</button>
                     </div><!-- /.box-footer -->
                 <?=form_close()?>

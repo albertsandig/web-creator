@@ -22,7 +22,7 @@ if ( ! function_exists('access_level'))
 		
 		switch($access_rights){
 			case 'ADMIN_ACCESS':
-				$user_type = array('ADMIN','SUPERUSER');
+				$user_type = array('ADMIN','SUPERUSER','SYSADMIN');
 				if(!in_array($CI->session->userdata('user_type'), $user_type))
 					redirect('admin/access_error');
 			break;
@@ -60,7 +60,7 @@ if ( ! function_exists('access_level_view'))
 		
 		switch($access_rights){
 			case 'ADMIN_ACCESS':
-				$user_type = array('ADMIN','SUPERUSER');
+				$user_type = array('ADMIN','SUPERUSER','SYSADMIN');
 				if(!in_array($CI->session->userdata('user_type'), $user_type))
 					return false;
 			break;
