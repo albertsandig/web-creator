@@ -32,6 +32,7 @@
                             <th width="15%">Serial Number</th>
                             <th>Name</th>
                             <th width="15%">Created By</th>
+                            <th width="15%">Status</th>
                             <th width="15%" >Action</th>
                         </thead>
                         <tbody>
