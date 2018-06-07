@@ -77,6 +77,17 @@ CREATE TABLE modules(
 ALTER TABLE modules ADD FULLTEXT (name);
 
 
+/*--------------------- SECURITY MODULE ---------------------*/
+CREATE TABLE user_access_module(
+    module_serial_no 	int(11) NOT NULL, 
+	user_no				int NOT NULL,
+    FOREIGN KEY (user_no) REFERENCES user_info(user_no),
+	FOREIGN KEY (module_serial_no) REFERENCES modules(module_serial_no)
+); 
+
+
+
+
 
 
 

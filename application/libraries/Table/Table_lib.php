@@ -10,7 +10,7 @@ class Table_lib
 {
 
     private $CI;
-    private $external_links = "";
+    private $external_links = array();
     
     public function __construct()
     {
@@ -53,10 +53,17 @@ class Table_lib
             if($p_key != -1){
                 $action_delete = ($delete_link) ? "|  <a class='action' href='delete/".$p_key."' >delete</a> " : "";
                 $action_edit = ($edit_link) ? "<a class='action' href='edit/".$p_key."' >edit</a> " : "";
+				$external_link = "";
+				
+				foreach($this->external_links AS $link){
+					$val = ($link['hasId']) ? $p_key : '';
+					$external_link .= $link['open_tag']."".$link['link']."".$val."".$link['end_tag'];
+				}
+				
                 $actions = "<td>
                             ".$action_edit."
                             ".$action_delete."
-                            ".$this->external_links."
+                            ".$external_link."
                           </td>";
                 
                 if(substr_count($actions, "class='action'") < 2) { 
@@ -74,8 +81,15 @@ class Table_lib
         return $data;
     }
     
-    public function create_link($link,$name){
-        $this->external_links = "| <a class='action' href='".$link."'>".$name."</a>" ;
+    public function create_link($link,$name,$hasId = false){
+		array_push($this->external_links,
+			array(
+				'open_tag' => "| <a class='action' href='",
+				'link' => $link,
+				'end_tag' => "'>".$name."</a>",
+				'hasId' => $hasId
+			)
+		);
     }
 }
 

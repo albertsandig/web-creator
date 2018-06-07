@@ -26,10 +26,20 @@ class Modules_Model extends SUB_Model
                 A.module_no,
                 A.module_serial_no,
                 A.name,
-                CONCAT(B.firstname,' ',lastname) AS created_by
+                CONCAT(B.firstname,' ',lastname) AS created_by,
+				CASE
+					WHEN ISNULL(C.user_no) THEN '<b style=\"color:green\" >ACTIVATE</b>'
+					ELSE '<b style=\"color:red\" >DEACTIVATE</b>'
+				END AS status
             FROM ".$this->table." AS A
             INNER JOIN user_info AS B
                 ON A.created_by = B.user_no
+			LEFT JOIN (
+				SELECT module_serial_no,user_no
+				FROM user_access_module
+				WHERE user_no = ".$this->session->userdata('user_no')."
+			) AS C
+				USING(module_serial_no)
             ".$condition."
             LIMIT 100;
         ",array ($search_val));
@@ -116,13 +126,70 @@ class Modules_Model extends SUB_Model
     
     public function delete($id)
     {
-        $query = $this->db->query("
+		$module = $this->get_module($id);
+		
+		$query = $this->db->query("
+            SELECT 
+                count(A.module_serial_no) AS is_exist
+            FROM user_access_module AS A
+            WHERE A.module_serial_no = ? 
+        ",array ($module->serial_no));
+	
+		 $has_security = ($query->row()->is_exist > 0) ? true : false;
+		 
+		 if(!$has_security){
+			$query = $this->db->query("
             DELETE FROM ".$this->table." 
             WHERE module_no = ?
-        ",array (
-                $id
-            )
-        );
+			",array (
+					$id
+				)
+			);
+			
+			return true;
+		 } else {
+			return false;
+		 }
+    }
+	
+	public function activate($serial_no)
+    {
+		
+		$query = $this->db->query("
+            SELECT 
+                count(A.module_serial_no) AS is_exist
+            FROM user_access_module AS A
+            WHERE A.module_serial_no = ? AND A.user_no = ?
+        ",array ($serial_no,$this->session->userdata('user_no')));
+        
+        $switch = ($query->row()->is_exist > 0) ? true : false;
+		
+		if($switch){
+			$query = $this->db->query("
+				DELETE FROM user_access_module
+				WHERE module_serial_no = ? AND
+					  user_no = ?
+			",array (
+					$serial_no,
+					$this->session->userdata('user_no')
+				)
+			);
+			
+			return 'deactivated';
+		} else {
+			$query = $this->db->query("
+				INSERT INTO user_access_module(
+					module_serial_no,
+					user_no
+				) VALUES(?,?)
+			",array (
+					$serial_no,
+					$this->session->userdata('user_no')
+				)
+			);
+			
+			return 'activated';
+		}
     }
     
 }

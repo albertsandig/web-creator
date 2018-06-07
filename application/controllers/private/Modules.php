@@ -19,12 +19,10 @@ class Modules extends SUB_Controller {
         if(access_level_view('USER_ACCESS')){
             $edit = false;
             $delete = false;
-            $this->table_lib->create_link('test/','activate');
         }
-        
-        
-        
-        
+		
+        $this->table_lib->create_link('switch_module/','switch',true);
+		
         $this->data['modules'] = $this->table_lib->getList(
             $this->default_model,
             'get_modules',
@@ -87,11 +85,15 @@ class Modules extends SUB_Controller {
         
         $entity = $this->{$this->default_model}->get_module($id);
         
-        
         if($entity){
-            $this->{$this->default_model}->delete($id);
-            $this->session->set_flashdata('notification_type', 'success');   
-            $this->session->set_flashdata('message', 'The module "'.$entity->name.'" was deleted.');   
+            if($this->{$this->default_model}->delete($id)){
+				$this->session->set_flashdata('notification_type', 'success');   
+				$this->session->set_flashdata('message', 'The module "'.$entity->name.'" was deleted.');   
+			} else {
+				$this->session->set_flashdata('notification_type', 'danger');   
+				$this->session->set_flashdata('message', 'The module "'.$entity->name.'" cannot be deleted.');   
+			}
+            
         } else {
             $this->session->set_flashdata('notification_type', 'danger');   
             $this->session->set_flashdata('message', 'The entry #'.$id.' does not exist.');   
@@ -117,6 +119,21 @@ class Modules extends SUB_Controller {
         $this->set_body('themes/private/adminlte/admin/pages/modules/view');
 		$this->load->view('themes/private/adminlte/admin/template',$this->data);
         
+    }
+	
+	public function activate($id)
+    {
+		$module = $this->{$this->default_model}->get_module($id);
+		if($module){
+			$result = $this->{$this->default_model}->activate($module->serial_no);
+			$this->session->set_flashdata('notification_type', 'success');   
+            $this->session->set_flashdata('message', 'The module '.$module->name.' was '.$result.'.');   
+        } else {
+			$this->session->set_flashdata('notification_type', 'danger');   
+            $this->session->set_flashdata('message', 'The entry #'.$id.' does not exist.');   
+		}
+		
+		redirect('admin/modules/list');
     }
     
     static function save($state = 'edit')
